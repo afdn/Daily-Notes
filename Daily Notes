@@ -1,0 +1,49 @@
+    1.PTA第二题：
+1002 写出这个数：
+读入一个正整数 n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
+输入格式：
+每个测试输入包含 1 个测试用例，即给出自然数 n 的值。这里保证 n 小于 10**100
+输出格式：
+在一行内输出 n 的各位数字之和的每一位，拼音数字间有 1 空格，但一行中最后一个拼音数字后没有空格。
+输入样例：
+1234567890987654321123456789
+输出样例：
+yi san wu
+
+inp = input()
+Sum = 0
+for item in inp:
+    Sum += int(item)
+SumStr = str(Sum)
+Str = ''
+for item1 in SumStr:
+    if item1 == '1':
+        Str+="yi "
+    elif item1 == '2':
+        Str+="er "
+    elif item1 == '3':
+        Str+="san "
+    elif item1 == '4':
+        Str+="si "
+    elif item1 == '5':
+        Str+="wu "
+    elif item1 == '6':
+        Str+="liu "
+    elif item1 == '7':
+        Str+="qi "
+    elif item1 == '8':
+        Str+="ba "
+    elif item1 == '9':
+        Str+="jiu "
+    elif item1 == '0':
+        Str+="ling "
+print(Str.rstrip())
+(参考过网上的内容，勉勉强强写的出来......）
+     2.了解了迭代字典：
+要遍历字典的所有关键字，可以像遍历序列那样使用普通的for语句，如：
+d={'x':1,'y':2,'z':3}
+for key in d
+    print(key,'corresponds to',d[key])
+也可以使用keys等字典方法来获取所有的键。for循环的优点之一是，可在其中使用序列解包，如：
+for key,value in d.items():
+    print(key,'corresponds to',value)
