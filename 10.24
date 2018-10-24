@@ -1,0 +1,40 @@
+1.exec函数：
+函数exec将字符串作为代码执行，如：
+>>>exec(“print(‘Hello, world!’)”)
+Hello, world!
+然而，在大多数情况下，还应该向exec函数传递一个命名空间——用于放置变量的地方，否则它将修改变量，例如，假设代码使用了名称sqrt，结果如下：
+>>>from math import sqrt
+>>>exec(“sqrt=1”)
+>>>sqrt(4)
+Traceback (most recent call last):
+  File “<pyshell#18>”,line 1, in ?
+Sqrt(4)
+TypeError: object is not callable:1
+函数exec主要用于动态地创建代码字符串，这种字符串可以来自其他地方，所以为了安全起见，要提供第二个参数——字典来用作代码字符串的命名空间：
+>>>from math import sqrt
+>>>scope= { }
+>>>exec(‘sqrt = 1’,scope)
+>>>sqrt(4)
+2.0
+>>>scope[‘sqrt’]
+1
+但是如果将scope打印出来，将发现它包含很多内容，这是因为自动在其中添加了包含所有内置函数和值得字典__builtins__:
+>>>len(scope)
+2
+>>>scope.keys()
+[‘sqrt’,’__builtins__’]
+2.eval函数
+Eval是一个类似于exec的函数，区别在于exec执行一系列Python语句，而eval计算用字符串表示的Python表达式的值，并返回结果。例如，可以使用以下代码来创建一个Python计算器：
+>>>eval(input(“Enter an arithmetic expression: “))
+Enter an arithmetic expression: 6+18*2
+42
+与exec一样，也可以向eval提供一个命名空间，但是表达式通常不会像语句那样给变量重新赋值。
+3.一些循环语句的新函数：
+chr(n)        返回一个字符串，其中只包含一个字符，这个字符对应于传入的顺序值n（0≤n<256）
+enumerate(seq)       生成可迭代的索引—值对
+ord(c)       接受一个只包含一个字符的字符串，并返回这个字符的顺序值（一个整数）
+range([start,] stop[,step])      创建一个由整数组成的列表
+reversed(seq)        按相反的顺序返回seq中的值，以便用于迭代
+sorted（seq[,cmp][,key][,reversel]）     返回一个列表，其中包含seq中的所有值且这些值是经过排序的
+xrange([start,] stop[,step])      创建一个用于迭代的xrange对象
+zip(seq1,seq2,...)       创建一个适合用于并行迭代的新序列
