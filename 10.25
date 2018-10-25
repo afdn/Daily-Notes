@@ -1,0 +1,60 @@
+1. 自定义函数:
+判断某个函数是否可以被调用，可以使用内置函数callable:
+>>>import math
+>>>x=1
+>>>y=math.sqrt
+>>>callable(x)
+False
+>>>callable(y)
+True
+想要自定义函数可以使用def语句:
+def hello(name):
+       return'Hello, ' +name+ '!'
+运行这些代码后，将会有一个名为hello的新函数。它返回一个字符串，其中包含向唯一参数指定的人发出的问候语。同时可以像使用内置函数一样使用这个函数:
+>>>print(hello(hworld'))
+Hello, world!
+>>>print(hello('Gunby'))
+Hello, Gumby!
+2.收集参数
+参数前面的星号将提供的所有值都放在一个元组中，也就是将这些值收集起来，如定义函数：
+def print_params(*params):
+   print(params)
+使用一个参数来调用这个函数，结果如下：
+>>> print_params(‘Testing’)
+(‘Testing’,)
+>>> print_params(1,2,3)
+(1,2,3)
+另外，星号意味着收集的是余下的位置参数：
+def print_params_2(title,*params):
+   print(title)
+   print(params)
+尝试调用它：
+>>> print_params_2(‘Params:’,1,2,3)
+Params:
+(1,2,3)
+如果没有可供收集的参数，params将是一个空元组：
+>>> print_params_2(‘Nothing:’)
+Nothing:
+()
+与赋值时一样，带星号的参数也可以放在其他位置（而不是最后），但不同的是，在这种情况下需要做些额外的工作，即使用名称来指定后续参数：
+>>>def in_the_middle(x,*y,z):
+…      print(x,y,z)
+…
+>>>in_the_middle(1,2,3,4,5,z=7)
+1(2,3,4,5)7
+>>> in_the_middle(1,2,3,4,5,7)
+Traceback (most recent call last):
+  File “<stdin>”.line 1, in <module>
+TypeError：in_the middle() missing 1 required keyword-only argument: ‘z’
+星号不会收集关键字参数：
+>>>print_params_2(‘Hmm...’, something=42)
+Traceback (most recent call last):
+  File “< stdin>”.line 1, in <module>
+TypeError: print_params_2() got an unexpected keyword argument ‘something’
+如果要收集关键字参数，则可以使用两个星号：
+>>> def print_params_3(**params):
+…       print(params)
+…
+>>> print_params_3(x=1, y=2, z=3)
+{‘z’:3,’x’:1,’y’=2}
+这样得到的是一个字典而不是元组
