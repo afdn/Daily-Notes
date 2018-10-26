@@ -1,0 +1,50 @@
+1.分配参数：
+假如有以下函数：
+def add(x,y):
+   return x+y
+同时还有一个包含两个要相加的数的元组：
+params =(1,2)
+那么可以通过在调用函数时使用运算符*实现：
+>>> add(*params)
+3
+这种做法也可用于参数列表的一部分，条件是这部分位于参数列表末尾。通过使用运算符**，可将字典中的值分配给关键字参数：
+def hello(greeting=’Hello’,name=’world’):
+   print(‘{ }, { }!’.format(greeting, name))
+>>>params = {‘name’: ‘Sir Robin’, ‘greeting’: ‘Well met’}
+>>>hello(**params)
+Well met, Sir Robin!
+但是如果在定义和调用函数时都使用*或**，将只传递元组或字典：
+>>> def with_stars(**kwds):
+…      print(kwds[‘name’], ‘is’, kwds[‘age’], ‘years old’)
+…
+>>> def without_stars(kwds):
+…       print(kwds[‘name’] , ‘is’, kwds[‘age’], ‘years old’)
+…
+>>>args={‘name’: ‘Mr. umby’, ‘age’: 42}
+>>>with_stars(**args)
+Mr. Gumby is 42 years old
+>>>without_stars(args)
+Mr. Gumby is 42 years old
+对于函数with_stars，在定义和调用时都使用了星号，而对于函数without_stars，在定义和调用时都没有使用，但这两种做法的效果相同。
+2.作用域嵌套：
+Python函数可以嵌套，即可将一个函数放在另一个函数内，如：
+def foo():
+   def bar():
+      print(“Hello, world!”)
+   bar()
+嵌套通常作用不大，但是有一个很突出的用途：使用一个函数来创建另一个函数，这意味着可以像着下面这样编写函数：
+def multiplier(factor):
+def multiplyByFactor(number):
+   return number * factor
+return multiplyByFactor
+在这个例子中，一个函数位于另一个函数中，并且外面的函数返回里面的函数，也就是返回一个函数而不是调用它。更重要的是，返回的函数能够访问其定义所在的作用域，也就是说，它携带着自己所在的环境和相关的局部变量。
+每当外部函数被调用时，都将重新定义内部的函数，而变量的factor的值也可能不同。由于Pythin的嵌套作用域，可在内部函数中访问这个来自外部局部作用域的变量，如：
+>>> double = multiplier
+>>> double(5)
+10
+>>> triple = multipylier(3)
+>>> triple(3)
+9
+>>> multiplier(5)(4)
+20
+像multiplyByFactor这样存储其所在作用域的函数称为闭包。通常情况下，不能给外部作用域内的变量赋值，但如果一定要这样做，可以使用关键字nonlocal。这个关键字的作用是让我们能够给外部作用域（非全局作用域）内的变量赋值。
